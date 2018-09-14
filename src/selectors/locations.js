@@ -32,14 +32,14 @@ const getfilteredLocations = (locations = [], bedroomLow = 0, bedroomHigh, bathr
  * @param {Object} state 
  * @returns {Array}
  */
-const locations = state => state.locations;
+const data = state => state.locations;
 
 /**
  * @param {Object} state
  * @returns {Array}
  */
 const filteredLocations = createSelector(
-  locations,
+  data,
   filtersSelectors.bedsLow,
   filtersSelectors.bedsHigh,
   filtersSelectors.bathsLow,
@@ -50,5 +50,5 @@ const filteredLocations = createSelector(
 
 export default {
   filteredLocations,
-  locations
+  data
 }

@@ -6,7 +6,7 @@ const ANY = 'Any';
  * @param {Object} state 
  * @returns {Array}
  */
-const buildingTypes = state => state.buildingTypes
+const data = state => state.buildingTypes
 
 /**
  * @type {Object}
@@ -29,11 +29,11 @@ const getCombinedBuildingTypes = (buildingTypes) => {
  * @returns {Array}
  */
 const combinedBuildingTypes = createSelector(
-    buildingTypes,
+    data,
     getCombinedBuildingTypes
 );
 
 export default {
     combinedBuildingTypes,
-    buildingTypes
+    data
 }

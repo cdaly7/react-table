@@ -92,11 +92,10 @@ class InterviewTestContainer extends Component {
                     <div className="building-filter">
                         <label>Building Type:</label>
                         {this.props.buildingTypes.map(property => (
-                                <span>
+                                <span key={property.id}>
                                     <input 
                                     type="checkbox"
                                     checked={this.props.buildingTypesFilters[property.id]}
-                                    key={property.id}
                                     value={property.id}
                                     onChange={this.handleBuildingTypeChange}/>
                                     {property.name}

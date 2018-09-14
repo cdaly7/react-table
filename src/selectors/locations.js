@@ -1,7 +1,5 @@
-import { createSelector } from 'reselect'
-import filtersSelectors from './filters.js'
-
-const ANY = 'Any';
+import { createSelector } from 'reselect';
+import filtersSelectors from './filters.js';
 
 /**
  * @param {Array} locations 
@@ -12,7 +10,7 @@ const ANY = 'Any';
  * @param {String} type 
  * @returns {Array}
  */
-const getfilteredLocations = (locations = [], bedroomLow = 0, bedroomHigh, bathroomLow = 0, bathroomHigh, type = ANY) => {
+const getfilteredLocations = (locations = [], bedroomLow = 0, bedroomHigh, bathroomLow = 0, bathroomHigh, type = 0) => {
   return locations.filter(location => {
       if (location.beds < bedroomLow || location.baths < bathroomLow) {
           return null;
@@ -23,18 +21,18 @@ const getfilteredLocations = (locations = [], bedroomLow = 0, bedroomHigh, bathr
       if (bedroomHigh && bedroomHigh < location.beds) {
           return null;
       }
-      if (type !== ANY && type !== location.buildingType.name) {
+      if (type !== 0 && type !== location.buildingType.id) {
           return null;
       }
       return location;
   });
-}
+};
 
 /**
  * @param {Object} state 
  * @returns {Array}
  */
-const locations = state => state.locations
+const locations = state => state.locations;
 
 /**
  * @param {Object} state

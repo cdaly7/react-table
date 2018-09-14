@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { setLocations } from './actions/locations.js'
+import { setBuildingTypes } from './actions/building-types.js';
 import * as filterActions from './actions/filters.js'
 import RemineTable from './components/Table/RemineTable/RemineTable';
 import remineApi from './API.js';
 import locations from './selectors/locations';
+import buildingTypes from './selectors/building-types';
 
 const ANY = 'Any';
 
@@ -12,14 +14,6 @@ class InterviewTestContainer extends Component {
     
     constructor(props) {
         super(props);
-
-        this.state = {
-            buildingTypes: [],
-            bedroomLow: 0,
-            bedroomHigh: 1,
-            bathroomLow: 0,
-            bathroomHigh: 1
-        };
 
         this.handleBedLowChange = (event) => {
             this.props.store.dispatch(filterActions.setBedsLowFilter(Number(event.target.value)));
@@ -38,7 +32,7 @@ class InterviewTestContainer extends Component {
         }
         
         this.handleBuildingTypeChange = (event) => {
-            this.props.store.dispatch(filterActions.setBuildingTypeFilter(event.target.value));
+            this.props.store.dispatch(filterActions.setBuildingTypeFilter(Number(event.target.value)));
         }
     }
       
@@ -50,7 +44,7 @@ class InterviewTestContainer extends Component {
 
         // Getting all building types
         remineApi.getBuildingTypes().then((result) => {
-            this.setState({buildingTypes: result.data})
+            this.props.store.dispatch(setBuildingTypes(result.data));
         })
     }
     
@@ -58,52 +52,53 @@ class InterviewTestContainer extends Component {
         return (
             <div className="interviewTestContainer">
                 <div className="filterContainer">
-                    <div>
+                    <div className="bedroom-filter">
                         <label>Number Of Bedrooms</label>
                         <div>
-                            <span>Minimum</span>
+                            <span>Min:</span>
                             <input min="0" 
                                 type="number" 
                                 name="bedLow" 
                                 onChange={this.handleBedLowChange}/>
                         </div>
                         <div>
-                            <span>Maximum</span>
+                            <span>Max:</span>
                             <input min="0" 
                                 type="number" 
                                 name="bedHigh" 
                                 onChange={this.handleBedHighChange}/>
                         </div>    
                     </div>
-                    <div>
+                    <div className="bathroom-filter">
                         <label>Bathrooms</label>
                         <div>
-                        <span>Minimum</span>
+                        <span>Min:</span>
                         <input min="0" 
                             type="number" 
                             name="bathLow" 
                             onChange={this.handleBathLowChange}/>
                         </div>
                        <div>
-                       <span>Maximum</span>
+                       <span>Max:</span>
                         <input min="0" 
                             type="number" 
-                            name="bathHigh" 
-                            
+                            name="bathHigh"   
                             onChange={this.handleBathHighChange}/>
                        </div>
                     </div>               
-                    <div>
+                    <div className="building-filter">
                         <label>Building Type:</label>
                         <select onChange={this.handleBuildingTypeChange}>
-                            <option value={ANY}>{ANY}</option>
-                            {this.state.buildingTypes.map(property => (
-                                <option key={property.id} value={property.name}>{property.name}</option>
+                            {this.props.buildingTypes.map(property => (
+                                <option key={property.id} 
+                                    value={property.id}>
+                                        {property.name}
+                                </option>
                             ))}
                         ))}
                         </select>
                     </div>
-                    </div>
+                </div>
                 <RemineTable properties={this.props.data} />
             </div>
         );
@@ -112,7 +107,10 @@ class InterviewTestContainer extends Component {
 
 // start of code change
 const mapStateToProps = (state) => {
-    return { data: locations.filteredLocations(state) };
+    return { 
+        data: locations.filteredLocations(state),
+        buildingTypes: buildingTypes.combinedBuildingTypes(state)
+     };
 };
   
 export default connect(mapStateToProps)(InterviewTestContainer);

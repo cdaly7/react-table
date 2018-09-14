@@ -9,8 +9,6 @@ import locations from './selectors/locations';
 import buildingTypes from './selectors/building-types';
 import filters from './selectors/filters';
 
-const ANY = 'Any';
-
 class InterviewTestContainer extends Component {
     
     constructor(props) {

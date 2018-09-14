@@ -1,5 +1,3 @@
-import { createSelector } from 'reselect';
-
 /**
  * @param {Object} state 
  * @returns {Array}

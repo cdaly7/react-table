@@ -3,10 +3,6 @@ import PropTypes from 'prop-types';
 import './RemineTable.css';
 
 class RemineTable extends Component {
-    componentDidMount() {
-        console.log('this.props.properties', this.props.properties)
-      }
-
     render() {    
         return (
             <div className="tableContainer">

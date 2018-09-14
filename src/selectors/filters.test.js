@@ -6,7 +6,13 @@ const state = {
         bedsHigh: 2,
         bathsLow: 1,
         bathsHigh: 9,
-        buildingType: 0  
+        buildingTypes: {
+            1: true,
+            2: true,
+            3: true,
+            4: true,
+            5: true
+        }  
     }
 };
 
@@ -35,9 +41,9 @@ describe('selectors/filters', function() {
         });
     });
 
-    describe('buildingType', function() {
-        test('should return the state.buildingType', () => {
-            expect(filters.buildingType(state)).toEqual(state.filters.buildingType);
+    describe('buildingTypes', function() {
+        test('should return the state.buildingTypes', () => {
+            expect(filters.buildingTypes(state)).toEqual(state.filters.buildingTypes);
         });
     });
 })

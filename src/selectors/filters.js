@@ -26,12 +26,12 @@ const bathsHigh = state => state.filters.bathsHigh;
  * @param {Object} state 
  * @returns {String}
  */
-const buildingType = state => state.filters.buildingType;
+const buildingTypes = state => state.filters.buildingTypes;
         
 export default {
   bedsLow,
   bedsHigh,
   bathsLow,
   bathsHigh,
-  buildingType
+  buildingTypes
 }

@@ -7,10 +7,10 @@ import filtersSelectors from './filters.js';
  * @param {Number} bedroomHigh 
  * @param {Number} bathroomLow 
  * @param {Number} bathroomHigh 
- * @param {String} type 
+ * @param {Object} types
  * @returns {Array}
  */
-const getfilteredLocations = (locations = [], bedroomLow = 0, bedroomHigh, bathroomLow = 0, bathroomHigh, type = 0) => {
+const getfilteredLocations = (locations = [], bedroomLow = 0, bedroomHigh, bathroomLow = 0, bathroomHigh, types = {}) => {
   return locations.filter(location => {
       if (location.beds < bedroomLow || location.baths < bathroomLow) {
           return null;
@@ -21,7 +21,7 @@ const getfilteredLocations = (locations = [], bedroomLow = 0, bedroomHigh, bathr
       if (bedroomHigh && bedroomHigh < location.beds) {
           return null;
       }
-      if (type !== 0 && type !== location.buildingType.id) {
+      if (!types[location.buildingType.id]) {
           return null;
       }
       return location;
@@ -44,7 +44,7 @@ const filteredLocations = createSelector(
   filtersSelectors.bedsHigh,
   filtersSelectors.bathsLow,
   filtersSelectors.bathsHigh,
-  filtersSelectors.buildingType,
+  filtersSelectors.buildingTypes,
   getfilteredLocations
 );
 

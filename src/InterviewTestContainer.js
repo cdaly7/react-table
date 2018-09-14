@@ -7,6 +7,7 @@ import RemineTable from './components/Table/RemineTable/RemineTable';
 import remineApi from './API.js';
 import locations from './selectors/locations';
 import buildingTypes from './selectors/building-types';
+import filters from './selectors/filters';
 
 const ANY = 'Any';
 
@@ -32,7 +33,11 @@ class InterviewTestContainer extends Component {
         }
         
         this.handleBuildingTypeChange = (event) => {
-            this.props.store.dispatch(filterActions.setBuildingTypeFilter(Number(event.target.value)));
+            if (event.target.checked) {
+                this.props.store.dispatch(filterActions.addBuildingTypeFilter(Number(event.target.value)));
+            } else {
+                this.props.store.dispatch(filterActions.removeBuildingTypeFilter(Number(event.target.value)));
+            }
         }
     }
       
@@ -88,15 +93,17 @@ class InterviewTestContainer extends Component {
                     </div>               
                     <div className="building-filter">
                         <label>Building Type:</label>
-                        <select onChange={this.handleBuildingTypeChange}>
-                            {this.props.buildingTypes.map(property => (
-                                <option key={property.id} 
-                                    value={property.id}>
-                                        {property.name}
-                                </option>
+                        {this.props.buildingTypes.map(property => (
+                                <span>
+                                    <input 
+                                    type="checkbox"
+                                    checked={this.props.buildingTypesFilters[property.id]}
+                                    key={property.id}
+                                    value={property.id}
+                                    onChange={this.handleBuildingTypeChange}/>
+                                    {property.name}
+                                </span>           
                             ))}
-                        ))}
-                        </select>
                     </div>
                 </div>
                 <RemineTable properties={this.props.data} />
@@ -109,7 +116,8 @@ class InterviewTestContainer extends Component {
 const mapStateToProps = (state) => {
     return { 
         data: locations.filteredLocations(state),
-        buildingTypes: buildingTypes.combinedBuildingTypes(state)
+        buildingTypes: buildingTypes.data(state),
+        buildingTypesFilters: filters.buildingTypes(state)
      };
 };
   

@@ -53,19 +53,6 @@ describe('selectors/locations.js', function() {
     })
 
     describe('filteredLocations', function() {
-        beforeEach(function () { 
-            var state = {
-                filters: {
-                    bedsLow: 0,
-                    bedsHigh: null,
-                    bathsLow: 0,
-                    bathsHigh: null,
-                    buildingType: 0
-                },
-                locations: locationList                 
-            }
-        })
-
         test('with default filters should return all locations', () => {
             let state = {
                 filters: {
@@ -73,7 +60,13 @@ describe('selectors/locations.js', function() {
                     bedsHigh: null,
                     bathsLow: 0,
                     bathsHigh: null,
-                    buildingType: 0
+                    buildingTypes: {
+                        1: true,
+                        2: true,
+                        3: true,
+                        4: true,
+                        5: true
+                    }
                 },
                 locations: locationList                 
             }
@@ -87,7 +80,13 @@ describe('selectors/locations.js', function() {
                     bedsHigh: 2,
                     bathsLow: 1,
                     bathsHigh: 3,
-                    buildingType: 0
+                    buildingTypes: {
+                        1: true,
+                        2: true,
+                        3: true,
+                        4: true,
+                        5: true
+                    }
                 },
                 locations: locationList                 
             }
@@ -110,7 +109,13 @@ describe('selectors/locations.js', function() {
                     bedsHigh: null,
                     bathsLow: 0,
                     bathsHigh: null,
-                    buildingType: 2
+                    buildingTypes: {
+                        1: false,
+                        2: true,
+                        3: false,
+                        4: false,
+                        5: false
+                    }
                 },
                 locations: locationList                 
             }
